@@ -9,10 +9,7 @@
 #include <Servo.h>
 #include <SoftwareSerial.h>
 SoftwareSerial BTserial(2, 3); // RX | TX
-// Connect the HC-05 TX to Arduino pin 2 RX. 
-// Connect the HC-05 RX to Arduino pin 3 TX through a voltage divider.
-// 
- 
+
 char c = ' ';
 int accelerate = 8;
 int cruise = 9;
