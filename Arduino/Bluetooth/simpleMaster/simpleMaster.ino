@@ -14,9 +14,9 @@ SoftwareSerial BTserial(2, 3); // RX | TX
 // 
  
 char c = ' ';
-int accelerate = 8;
-int cruise = 9;
-int brk = 10;
+const int accelerate = 8;
+const int cruise = 9;
+const int brk = 10;
 
 int valAcc = 0;
 int valcrz = 0;
@@ -48,6 +48,12 @@ void loop(){
     // Keep reading from Arduino Serial Monitor and send to HC-05
     if (Serial.available()){
         c =  Serial.read();
-        BTserial.write(c);  
+        BTserial.write(c);
+        if (valBrk == "HIGH") BTserial.write('b');  
+        else if(valcrz == "HIGH")BTserial.write('c');
+        else if(valAcc)BTserial.write('a');
+        else BTserial.write('n');
+           
+        
     }
 }

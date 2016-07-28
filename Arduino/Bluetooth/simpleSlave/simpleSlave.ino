@@ -8,6 +8,7 @@ int pwmValue; //range from 0 to 255
 int speedPercentage; //range from 0 to 100
 int motorValue;
 
+char state = '';
 void setup() 
 {
   Serial.begin(9600);
@@ -23,16 +24,17 @@ void setup()
  
 void loop()
 {
- 
   // Keep reading from HC-06 and send to Arduino Serial Monitor
   if (BTSerial.available()){
-    Serial.write(BTSerial.read());
+    state = BTSerial.read();
+    Serial.write(state);
   }
- 
+  
+ /*
   // Keep reading from Arduino Serial Monitor and send to HC-06
   if (Serial.available()){
     BTSerial.write(Serial.read());
-  }
+  }*/
 
   potentiometerValue = analogRead(potPin);
 
