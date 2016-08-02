@@ -7,6 +7,8 @@ int potentiometerValue; //range from 0 to 1023
 int pwmValue; //range from 0 to 255
 int speedPercentage; //range from 0 to 100
 int motorValue;
+char masterValue; // value from remote
+int speedVal;
 
 char state = '';
 void setup() 
@@ -20,6 +22,7 @@ void setup()
   pinMode(potPin, INPUT);
   pinMode(pwmOutPin, OUTPUT);
   myMotor.attach(pwmOutPin);
+  speedVal = 0;
 }
  
 void loop()
@@ -35,7 +38,7 @@ void loop()
   if (Serial.available()){
     BTSerial.write(Serial.read());
   }*/
-
+  
   potentiometerValue = analogRead(potPin);
 
   pwmValue = map(potentiometerValue, 0,1023, 0, 255);
@@ -52,4 +55,12 @@ void loop()
   Serial.print("\t");
   Serial.print(motorValue);
   Serial.println();
+
+  if(masterValue == 'b') myMotor.write(0);
+  else if(masterValue == 'c'); // do nothing, motor value stays the same
+  else if(masterValue == 'a'){speedVal += 10 ;myMotor.write(speedVal); }
+    else{/* something went very wrong*/}
+  }
+
+  
 }
