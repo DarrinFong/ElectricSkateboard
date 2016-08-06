@@ -1,8 +1,9 @@
 #include <SoftwareSerial.h>
+#include <Servo.h>
 SoftwareSerial BTSerial(2, 3); // RX | TX
 const int potPin = A0; // potentiometer
 const int pwmOutPin = 3; // PWM output
-
+Servo myMotor;
 int potentiometerValue; //range from 0 to 1023
 int pwmValue; //range from 0 to 255
 int speedPercentage; //range from 0 to 100
@@ -10,7 +11,7 @@ int motorValue;
 char masterValue; // value from remote
 int speedVal;
 
-char state = '';
+char state;
 void setup() 
 {
   Serial.begin(9600);
@@ -31,14 +32,7 @@ void loop()
   if (BTSerial.available()){
     state = BTSerial.read();
     Serial.write(state);
-  }
-  
- /*
-  // Keep reading from Arduino Serial Monitor and send to HC-06
-  if (Serial.available()){
-    BTSerial.write(Serial.read());
-  }*/
-  
+  }  
   potentiometerValue = analogRead(potPin);
 
   pwmValue = map(potentiometerValue, 0,1023, 0, 255);
@@ -56,11 +50,16 @@ void loop()
   Serial.print(motorValue);
   Serial.println();
 
-  if(masterValue == 'b') myMotor.write(0);
-  else if(masterValue == 'c'); // do nothing, motor value stays the same
-  else if(masterValue == 'a'){speedVal += 10 ;myMotor.write(speedVal); }
-    else{/* something went very wrong*/}
+  if(masterValue == 'b'){
+    motorValue = 0;
   }
-
-  
+  else if(masterValue == 'c'){
+  }
+  else if(masterValue == 'a'){
+    speedVal += 10 ;myMotor.write(speedVal);
+  }
+  else{
+    /* something went very wrong*/
+  }
+  }
 }
