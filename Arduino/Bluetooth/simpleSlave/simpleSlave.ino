@@ -11,7 +11,7 @@ int motorValue;
 char masterValue; // value from remote
 int speedVal;
 
-char state;
+char state = ' ';
 void setup() 
 {
   Serial.begin(9600);
@@ -31,7 +31,7 @@ void loop()
   // Keep reading from HC-06 and send to Arduino Serial Monitor
   if (BTSerial.available()){
     state = BTSerial.read();
-    Serial.write(state);
+    Serial.println(state);
   }  
   potentiometerValue = analogRead(potPin);
 
@@ -40,7 +40,7 @@ void loop()
   motorValue = map(pwmValue,0,255,0,180);
   
   myMotor.write(motorValue);
-  
+  /*
   Serial.print(potentiometerValue);
   Serial.print("\t");
   Serial.print(pwmValue);
@@ -48,7 +48,7 @@ void loop()
   Serial.print(speedPercentage);
   Serial.print("\t");
   Serial.print(motorValue);
-  Serial.println();
+  Serial.println();*/
 
   if(masterValue == 'b'){
     motorValue = 0;
@@ -60,6 +60,5 @@ void loop()
   }
   else{
     /* something went very wrong*/
-  }
   }
 }
