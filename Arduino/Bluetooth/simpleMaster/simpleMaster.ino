@@ -31,20 +31,23 @@ void setup(){
 }
 
 void loop(){
-    delay(100);
     if (digitalRead(8) == HIGH){
+      delay(100);
       BTserial.write('a');
       Serial.println("accl");
     }
     else if(digitalRead(9) == HIGH){
+      delay(100);
       BTserial.write('c');
       Serial.println("cruz");
     }
     else if(digitalRead(10) == HIGH){
+      delay(100);
       BTserial.write('b');
       Serial.println("brke");
     }
     else{
+      delay(100);
       BTserial.write('n');
       Serial.println("norm");
     }

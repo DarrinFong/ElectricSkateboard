@@ -1,15 +1,15 @@
 #include <SoftwareSerial.h>
 #include <Servo.h>
 SoftwareSerial BTSerial(2, 3); // RX | TX
+Servo MOTOR;
 const int potPin = A0; // potentiometer
 const int pwmOutPin = 3; // PWM output
-Servo myMotor;
 int potentiometerValue; //range from 0 to 1023
 int pwmValue; //range from 0 to 255
 int speedPercentage; //range from 0 to 100
-int motorValue;
-char masterValue; // value from remote
+int motorValue; 
 int speedVal;
+char masterValue; // value from remote
 
 char state = ' ';
 void setup() 
@@ -22,7 +22,7 @@ void setup()
 
   pinMode(potPin, INPUT);
   pinMode(pwmOutPin, OUTPUT);
-  myMotor.attach(pwmOutPin);
+  MOTOR.attach(pwmOutPin);
   speedVal = 0;
 }
  
@@ -39,26 +39,17 @@ void loop()
   speedPercentage = (int) (potentiometerValue/1023.0*100);
   motorValue = map(pwmValue,0,255,0,180);
   
-  myMotor.write(motorValue);
-  /*
-  Serial.print(potentiometerValue);
-  Serial.print("\t");
-  Serial.print(pwmValue);
-  Serial.print("\t");
-  Serial.print(speedPercentage);
-  Serial.print("\t");
-  Serial.print(motorValue);
-  Serial.println();*/
+  MOTOR.write(motorValue);
 
-  if(masterValue == 'b'){
+  if(masterValue == 'b'){ //hard break
     motorValue = 0;
   }
-  else if(masterValue == 'c'){
+  else if(masterValue == 'c'){ //cruise, constant speed
   }
-  else if(masterValue == 'a'){
-    speedVal += 10 ;myMotor.write(speedVal);
+  else if(masterValue == 'a'){ //accelerate
+    motorValue += 10 ;
   }
-  else{
-    /* something went very wrong*/
+  else if(masterValue == 'n'){ //normal state, softbreak (regeneration to be implemented)
+    
   }
 }
