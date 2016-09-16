@@ -2,10 +2,9 @@
 #include <Servo.h>
 Servo MOTOR;
 SoftwareSerial BTSerial(2, 3); // RX | TX
-const int pwmOutPin = 3; // PWM output
+const int pwmOutPin = 7; // PWM output
 int speedPercentage = 0; //range from 0 to 100
 int motorValue;
-int speedVal;
 char masterValue; // value from remote
 
 char state = ' ';
@@ -17,10 +16,8 @@ void setup()
   // HC-06 default baud rate is 9600
   BTSerial.begin(9600);
 
-  pinMode(potPin, INPUT);
   pinMode(pwmOutPin, OUTPUT);
   MOTOR.attach(pwmOutPin);
-  speedVal = 0;
 }
  
 void loop()
@@ -28,7 +25,6 @@ void loop()
   // Keep reading from HC-06 and send to Arduino Serial Monitor
   if (BTSerial.available()){
     masterValue = BTSerial.read();
-    Serial.println(masterValue);
     
     switch(masterValue){
     case 'b':
@@ -38,14 +34,24 @@ void loop()
       // cruise
       break;
     case 'a':
-      speedPercentage += 1; //accelerate
+      if(speedPercentage < 100){
+        speedPercentage += 2; //accelerate
+      }
       break;
     case 'n':
-      speedPercentage -= 1; //softbreak
+      if(speedPercentage > 0){
+        speedPercentage -= 2; //softbreak
+      }
       break;
     }
   }
   
-  motorValue = map(speedPercentage,0,255,0,180);
+  motorValue = map(speedPercentage,0,100,0,180);
   MOTOR.write(motorValue);
+  
+  Serial.print(masterValue);
+  Serial.print("\tSpeed: ");
+  Serial.print(speedPercentage);
+  Serial.print("\tmotor value: ");
+  Serial.println(motorValue);
 }

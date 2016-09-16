@@ -8,7 +8,7 @@
  
 #include <Servo.h>
 #include <SoftwareSerial.h>
-SoftwareSerial BTserial(2, 3); // RX | TX
+SoftwareSerial BTserial(6, 7); // RX | TX
 // Connect the HC-05 TX to Arduino pin 2 RX. 
 // Connect the HC-05 RX to Arduino pin 3 TX through a voltage divider.
  
@@ -31,24 +31,49 @@ void setup(){
 }
 
 void loop(){
+    delay(100);
     if (digitalRead(8) == HIGH){
-      delay(100);
       BTserial.write('a');
+      Serial.print("8: \t");
+      Serial.print(digitalRead(8));
+      Serial.print("\t9: \t");
+      Serial.print(digitalRead(9));
+      Serial.print("\t10: \t");
+      Serial.print(digitalRead(10));
+      Serial.print("\t");
       Serial.println("accl");
     }
     else if(digitalRead(9) == HIGH){
-      delay(100);
       BTserial.write('c');
+      Serial.print("8: \t");
+      Serial.print(digitalRead(8));
+      Serial.print("\t9: \t");
+      Serial.print(digitalRead(9));
+      Serial.print("\t10: \t");
+      Serial.print(digitalRead(10));
+      Serial.print("\t");
       Serial.println("cruz");
     }
     else if(digitalRead(10) == HIGH){
-      delay(100);
       BTserial.write('b');
+      Serial.print("8: \t");
+      Serial.print(digitalRead(8));
+      Serial.print("\t9: \t");
+      Serial.print(digitalRead(9));
+      Serial.print("\t10: \t");
+      Serial.print(digitalRead(10));
+      Serial.print("\t");
       Serial.println("brke");
     }
     else{
-      delay(100);
       BTserial.write('n');
+      Serial.print("8: \t");
+      Serial.print(digitalRead(8));
+      Serial.print("\t9: \t");
+      Serial.print(digitalRead(9));
+      Serial.print("\t10: \t");
+      Serial.print(digitalRead(10));
+      Serial.print("\t");
       Serial.println("norm");
     }
 }
