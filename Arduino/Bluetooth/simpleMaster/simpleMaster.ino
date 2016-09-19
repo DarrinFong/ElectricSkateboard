@@ -1,30 +1,22 @@
-// Basic Bluetooth sketch HC-05_AT_MODE_01
-// Connect the HC-05 module and communicate using the serial monitor
-//
-// The HC-05 defaults to commincation mode when first powered on you will need to manually enter AT mode
-// The default baud rate for AT mode is 38400
-// See www.martyncurrey.com for details
-//
- 
 #include <Servo.h>
 #include <SoftwareSerial.h>
 SoftwareSerial BTserial(6, 7); // RX | TX
-// Connect the HC-05 TX to Arduino pin 2 RX. 
-// Connect the HC-05 RX to Arduino pin 3 TX through a voltage divider.
+// Connect the HC-05 TX to Arduino pin 6 RX. 
+// Connect the HC-05 RX to Arduino pin 7 TX through a voltage divider.
  
 char c = ' ';
 const int acc = 8;
 const int cru = 10;
 const int brk = 12;
+int speed = 0;
 
 void setup(){
+    Serial.begin(9600);
     pinMode(acc, INPUT);
     pinMode(cru, INPUT);
     pinMode(brk, INPUT);
     pinMode(13, OUTPUT);
     digitalWrite(13, HIGH);
-    Serial.begin(9600);
-    Serial.println("Arduino is ready");
     
     // HC-05 default serial speed for AT mode is 38400
     BTserial.begin(9600);
@@ -34,46 +26,20 @@ void loop(){
     delay(100);
     if (digitalRead(8) == HIGH){
       BTserial.write('a');
-      Serial.print("8: \t");
-      Serial.print(digitalRead(8));
-      Serial.print("\t9: \t");
-      Serial.print(digitalRead(9));
-      Serial.print("\t10: \t");
-      Serial.print(digitalRead(10));
-      Serial.print("\t");
-      Serial.println("accl");
+      if(speed < 100)
+      speed++;
     }
     else if(digitalRead(9) == HIGH){
       BTserial.write('c');
-      Serial.print("8: \t");
-      Serial.print(digitalRead(8));
-      Serial.print("\t9: \t");
-      Serial.print(digitalRead(9));
-      Serial.print("\t10: \t");
-      Serial.print(digitalRead(10));
-      Serial.print("\t");
-      Serial.println("cruz");
     }
     else if(digitalRead(10) == HIGH){
       BTserial.write('b');
-      Serial.print("8: \t");
-      Serial.print(digitalRead(8));
-      Serial.print("\t9: \t");
-      Serial.print(digitalRead(9));
-      Serial.print("\t10: \t");
-      Serial.print(digitalRead(10));
-      Serial.print("\t");
-      Serial.println("brke");
+      speed = 0;
     }
     else{
       BTserial.write('n');
-      Serial.print("8: \t");
-      Serial.print(digitalRead(8));
-      Serial.print("\t9: \t");
-      Serial.print(digitalRead(9));
-      Serial.print("\t10: \t");
-      Serial.print(digitalRead(10));
-      Serial.print("\t");
-      Serial.println("norm");
+      if(speed > 0)
+      speed--;
     }
+    Serial.println(speed);
 }

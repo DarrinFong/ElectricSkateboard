@@ -9,10 +9,7 @@ char masterValue; // value from remote
 
 char state = ' ';
 void setup() 
-{
-  Serial.begin(9600);
-  Serial.println("Slave on");
- 
+{ 
   // HC-06 default baud rate is 9600
   BTSerial.begin(9600);
 
@@ -35,12 +32,12 @@ void loop()
       break;
     case 'a':
       if(speedPercentage < 100){
-        speedPercentage += 2; //accelerate
+        speedPercentage++; //accelerate
       }
       break;
     case 'n':
       if(speedPercentage > 0){
-        speedPercentage -= 2; //softbreak
+        speedPercentage--; //softbreak
       }
       break;
     }
@@ -48,10 +45,4 @@ void loop()
   
   motorValue = map(speedPercentage,0,100,0,180);
   MOTOR.write(motorValue);
-  
-  Serial.print(masterValue);
-  Serial.print("\tSpeed: ");
-  Serial.print(speedPercentage);
-  Serial.print("\tmotor value: ");
-  Serial.println(motorValue);
 }
