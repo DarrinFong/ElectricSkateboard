@@ -3,7 +3,7 @@
 Servo MOTOR;
 SoftwareSerial BTSerial(2, 3); // RX | TX
 const int pwmOutPin = 7; // PWM output
-int speedPercentage = 0; //range from 0 to 100
+int speedPercentage = 40; //range from 0 to 100
 int motorValue;
 char masterValue; // value from remote
 
@@ -25,7 +25,7 @@ void loop()
     
     switch(masterValue){
     case 'b':
-      speedPercentage = 0; //hard break
+      speedPercentage = 40; //hard break
       break;
     case 'c':
       // cruise
@@ -36,7 +36,7 @@ void loop()
       }
       break;
     case 'n':
-      if(speedPercentage > 0){
+      if(speedPercentage > 40){
         speedPercentage--; //softbreak
       }
       break;

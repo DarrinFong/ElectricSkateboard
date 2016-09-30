@@ -11,7 +11,6 @@ const int brk = 12;
 int speed = 0;
 
 void setup(){
-    Serial.begin(9600);
     pinMode(acc, INPUT);
     pinMode(cru, INPUT);
     pinMode(brk, INPUT);
@@ -23,7 +22,7 @@ void setup(){
 }
 
 void loop(){
-    delay(100);
+    delay(150);
     if (digitalRead(8) == HIGH){
       BTserial.write('a');
       if(speed < 100)
@@ -41,5 +40,4 @@ void loop(){
       if(speed > 0)
       speed--;
     }
-    Serial.println(speed);
 }
